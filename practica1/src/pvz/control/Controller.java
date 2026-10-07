@@ -5,7 +5,6 @@ import pvz.view.GamePrinter;
 import pvz.view.GameView;
 import pvz.view.Messages;
 import pvz.view.Messages;
-pepe
 
 /**
  * Input/output coordinator of the game (the C in MVC).

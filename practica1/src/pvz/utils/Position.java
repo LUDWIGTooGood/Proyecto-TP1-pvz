@@ -12,12 +12,33 @@ public class Position {
         this.row = row;
     }
 
+    public int getRow() {
+        return this.row;
+    }
+
     public int getCol() {
         return this.col;
     }
 
-    public int getRow() {
-        return this.row;
+    public boolean isHorizontallyAligned (Position p){
+        return this.row == p.row;
+    }
+
+    public boolean isVerticallyAligned (Position p){
+        return this.col == p.col;
+    }
+
+    public Position left(){
+        return new Position(this.row, this.col - 1);
+    }
+
+     public Position right(){
+        return new Position(this.row, this.col + 1);
+    }
+
+    @Override
+    public string toString(){
+        return "(" + this.row + "," + this.col ")";
     }
 
     @Override

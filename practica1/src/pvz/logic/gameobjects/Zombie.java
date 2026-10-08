@@ -45,4 +45,18 @@ public class Zombie {
         return String.format(Messages.ZOMBIE_ICON, this.health);
     }
 
+    public void update(){
+        if (!this.isAlive()){
+            Position left = this.position.left();
+            this.game.attackPlant(left, DAMAGE);
+        }
+
+        if (this.cycles >= MOVE_EVERY_CYCLES && this.game.isEmpty(left)){
+            this.position = left;
+            this.cycles = 0;
+        }
+
+        this.cycles++;
+    }
+
 }

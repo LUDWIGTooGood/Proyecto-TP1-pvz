@@ -3,17 +3,20 @@ package pvz.control;
 /**
  * Difficulty preset for a game session.
  *
- * <p>Each constant bundles the total zombie quota and the per-cycle spawn
+ * <p>
+ * Each constant bundles the total zombie quota and the per-cycle spawn
  * probability. Higher difficulties spawn more zombies and spawn them more
  * frequently. These values are fixed at construction and never change during
  * a game.
  */
 public enum Level {
 
-	// TODO fill your code
+	// Niveles de dificultad del juego
+	EASY(3, 0.1),
+	HARD(5, 0.2),
+	INSANE(10, 0.3);
 
 	private int numberOfZombies;
-	
 	private double zombieFrequency;
 
 	private Level(int numberOfZombies, double zombieFrequency) {
@@ -21,7 +24,23 @@ public enum Level {
 		this.zombieFrequency = zombieFrequency;
 	}
 
-	// TODO fill your code
+	/**
+	 * Devuelve el número de zombis del nivel.
+	 *
+	 * @return número de zombis
+	 */
+	public int getNumberOfZombies() {
+		return numberOfZombies;
+	}
+
+	/**
+	 * Devuelve el número de zombis del nivel.
+	 *
+	 * @return número de zombis
+	 */
+	public double getZombieFrequency() {
+		return zombieFrequency;
+	}
 
 	/**
 	 * Parse a string and return any matching level
@@ -39,11 +58,13 @@ public enum Level {
 	}
 
 	/**
-	 * Returns a string representation of all the levels joined with <code>separator</code>
+	 * Returns a string representation of all the levels joined with
+	 * <code>separator</code>
 	 * 
 	 * @param separator String used as separator
 	 * 
-	 * @return the string resulted from joining all levels using <code>separator</code>
+	 * @return the string resulted from joining all levels using
+	 *         <code>separator</code>
 	 */
 	public static String all(String separator) {
 		StringBuilder buffer = new StringBuilder();

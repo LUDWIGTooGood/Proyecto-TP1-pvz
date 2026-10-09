@@ -1,56 +1,136 @@
 package pvz.utils;
 
-import java.util.Objects;
-
+/**
+ * Representa una posición del tablero mediante una fila y una columna.
+ */
 public class Position {
-
-    private int col;
+    
     private int row;
+    private int col;
 
-    public Position(int col, int row) {
-        this.col = col;
+    /**
+     * Crea una nueva posición.
+     *
+     * @param row fila de la posición
+     * @param col columna de la posición
+     */
+    public Position(int row, int col) {
         this.row = row;
+        this.col = col;
     }
 
-    public int getRow() {
+    /**
+     * Devuelve la fila de la posición.
+     *
+     * @return fila de la posición
+     */
+    public int row() {
         return this.row;
     }
 
-    public int getCol() {
+    /**
+     * Devuelve la columna de la posición.
+     *
+     * @return columna de la posición
+     */
+    public int column() {
         return this.col;
     }
 
-    public boolean isHorizontallyAligned (Position p){
-        return this.row == p.row;
+    /**
+     * Comprueba si dos posiciones representan la misma casilla.
+     *
+     * @param obj objeto con el que se compara
+     * @return true si ambas posiciones tienen la misma fila y columna
+     */
+    /*
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Position)) {
+            return false;
+        }
+        Position other = (Position) obj;
+        return row == other.row && col == other.col;
     }
+     */
 
-    public boolean isVerticallyAligned (Position p){
-        return this.col == p.col;
-    }
-
-    public Position left(){
-        return new Position(this.row, this.col - 1);
-    }
-
-     public Position right(){
-        return new Position(this.row, this.col + 1);
-    }
+    
 
     @Override
-    public string toString(){
-        return "(" + this.row + "," + this.col ")";
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + row;
+        result = prime * result + col;
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         Position other = (Position) obj;
-        return this.col == other.col && this.row == other.row;
+        if (this.row != other.row)
+            return false;
+        if (col != other.col)
+            return false;
+        return true;
     }
 
+    /**
+     * Devuelve una representación textual de la posición.
+     *
+     * @return posición en formato (fila, columna)
+     */
     @Override
-    public int hashCode() {
-        return Objects.hash(this.col, this.row);
+    public String toString() {
+        return "(" + row + ", " + col + ")";
+    }
+
+    /**
+     * Indica si esta posición está alineada horizontalmente con otra.
+     * Dos posiciones están alineadas horizontalmente cuando tienen la misma fila.
+     *
+     * @param position posición con la que se quiere comparar
+     * @return true si ambas posiciones tienen la misma fila
+     */
+    public boolean isHorizontallyAligned(Position position) {
+        return this.row == position.row;
+    }
+
+    /**
+     * Indica si esta posición está alineada verticalmente con otra.
+     * Dos posiciones están alineadas verticalmente cuando tienen la misma columna.
+     *
+     * @param position posición con la que se quiere comparar
+     * @return true si ambas posiciones tienen la misma columna
+     */
+    public boolean isVerticallyAligned(Position position) {
+        return this.col == position.col;
+    }
+
+    /**
+     * Devuelve la posición situada inmediatamente a la izquierda.
+     *
+     * @return posición situada una columna a la izquierda
+     */
+    public Position left() {
+        return new Position(row, col - 1);
+    }
+
+    /**
+     * Devuelve la posición situada inmediatamente a la derecha.
+     *
+     * @return posición situada una columna a la derecha
+     */
+    public Position right() {
+        return new Position(row, col + 1);
     }
 }

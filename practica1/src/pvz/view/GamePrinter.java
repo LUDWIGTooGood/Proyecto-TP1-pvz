@@ -3,30 +3,32 @@ package pvz.view;
 import static pvz.view.Messages.PROMPT;
 import static pvz.view.Messages.debug;
 import static pvz.view.Messages.error;
-import static utils.StringUtils.*;
+import static pvz.utils.StringUtils.*;
 
 import pvz.logic.Game;
-import utils.Position;
-import utils.StringUtils;
+import pvz.utils.Position;
+import pvz.utils.StringUtils;
 
 import java.util.Scanner;
 
 /**
  * View component of the game (the V in MVC).
  *
- * <p>Renders the current game state as a formatted string: a status header
+ * <p>
+ * Renders the current game state as a formatted string: a status header
  * (cycle count, sun coins, remaining zombies) followed by the ASCII board grid.
  * Also produces the end-of-game message distinguishing player win, player quit,
  * and zombie win outcomes.
  *
- * <p>This class is read-only with respect to {@link Game}: it queries game state
+ * <p>
+ * This class is read-only with respect to {@link Game}: it queries game state
  * through the public API and never modifies it. All string literals and format
  * templates are sourced from {@link Messages}.
  */
 public class GamePrinter implements GameView {
 
 	private static final String SPACE = " ";
-	
+
 	private static final String CELL_BORDER_CHAR = "─";
 
 	private static final String VERTICAL_DELIMITER = "|";
@@ -34,7 +36,7 @@ public class GamePrinter implements GameView {
 	private static final String NEW_LINE = System.lineSeparator();
 
 	private static final int MARGIN_SIZE = 2;
-	
+
 	private static final String MARGIN = repeat(SPACE, MARGIN_SIZE);
 
 	private static final int CELL_SIZE = 8;
@@ -54,14 +56,17 @@ public class GamePrinter implements GameView {
 	}
 
 	/**
-	 * Builds a string that represent the game status: cycles, suncoins, remaining zombies.
+	 * Builds a string that represent the game status: cycles, suncoins, remaining
+	 * zombies.
 	 * 
 	 * @return the string that represents the game status.
 	 */
 	private String getInfo() {
 		StringBuilder buffer = new StringBuilder();
 
-		// TODO fill your code
+		buffer.append(Messages.NUMBER_OF_CYCLES.formatted(this.game.getCycles()));
+		buffer.append(Messages.NUMBER_OF_COINS.formatted(this.game.getCoins()));
+		buffer.append(Messages.REMAINING_ZOMBIES.formatted(this.game.getRemainingZombies()));
 
 		return buffer.toString();
 	}
@@ -82,7 +87,8 @@ public class GamePrinter implements GameView {
 		for (int row = 0; row < Game.NUM_ROWS; row++) {
 			str.append(MARGIN).append(VERTICAL_DELIMITER);
 			for (int col = 0; col < Game.NUM_COLS; col++) {
-				str.append(StringUtils.centre(game.positionToString(new Position(row, col)), CELL_SIZE)).append(VERTICAL_DELIMITER);
+				str.append(StringUtils.centre(game.positionToString(new Position(row, col)), CELL_SIZE))
+						.append(VERTICAL_DELIMITER);
 			}
 			str.append(INDENTED_ROW_BORDER);
 		}
@@ -96,7 +102,15 @@ public class GamePrinter implements GameView {
 	@Override
 	public void showEndMessage() {
 		StringBuilder buffer = new StringBuilder(Messages.GAME_OVER);
-		// TODO fill your code
+		buffer.append(NEW_LINE);
+
+		if (this.game.playerQuits()) {
+			buffer.append(Messages.PLAYER_QUITS);
+		} else if (this.game.playerWins()) {
+			buffer.append(Messages.PLAYER_WINS);
+		} else {
+			buffer.append(Messages.ZOMBIES_WIN);
+		}
 		System.out.println(buffer);
 	}
 

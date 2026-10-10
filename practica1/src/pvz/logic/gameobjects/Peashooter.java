@@ -4,11 +4,7 @@ import pvz.utils.Position;
 import pvz.view.Messages;
 import pvz.logic.Game;
 
-/**
- * Representa un lanzaguisantes del juego.
- * Un lanzaguisantes ataca a los zombis que se encuentran
- * en su misma fila mientras permanece vivo.
- */
+// Representa un lanzaguisantes que ataca a zombis en su misma fila
 public class Peashooter {
 
     public static final int COST = 50;
@@ -24,12 +20,7 @@ public class Peashooter {
     private Position position;
     private Game game;
 
-    /**
-     * Crea un lanzaguisantes en una posición determinada.
-     *
-     * @param position posición del lanzaguisantes
-     * @param game     partida a la que pertenece
-     */
+    // Crea un nuevo lanzaguisantes en la posicion y partida indicadas
     public Peashooter(Position position, Game game) {
         this.position = position;
         this.game = game;
@@ -37,48 +28,27 @@ public class Peashooter {
         this.cooldownCounter = 0;
     }
 
-    /**
-     * Devuelve la representación del lanzaguisantes en el tablero.
-     *
-     * @return icono del lanzaguisantes
-     */
+    // Devuelve el icono del lanzaguisantes para el tablero
     public String getIcon() {
         return Messages.PEASHOOTER_ICON.formatted(this.health);
     }
 
-    /**
-     * Indica si el lanzaguisantes se encuentra en una posición determinada.
-     *
-     * @param position posición que se quiere comprobar
-     * @return true si el lanzaguisantes ocupa esa posición
-     */
+    // Comprueba si el lanzaguisantes se encuentra en la posicion dada
     public boolean isInPosition(Position position) {
         return this.position.equals(position);
     }
 
-    /**
-     * Devuelve la descripción del lanzaguisantes.
-     *
-     * @return descripción del lanzaguisantes
-     */
+    // Devuelve la descripcion formateada del lanzaguisantes
     public static String getDescription() {
         return Messages.PEASHOOTER_DESCRIPTION.formatted(COST, DAMAGE, INITIAL_HEALTH);
     }
 
-    /**
-     * Indica si el lanzaguisantes continúa vivo.
-     *
-     * @return true si su vida es mayor que cero
-     */
+    // Indica si el lanzaguisantes sigue con vida
     public boolean isAlive() {
         return this.health > 0;
     }
 
-    /**
-     * Actualiza el estado del lanzaguisantes.
-     * Si está vivo y ha alcanzado su frecuencia de ataque,
-     * dispara al primer zombi de su fila.
-     */
+    // Actualiza el lanzaguisantes y ataca si se cumple el tiempo de recarga
     public void update() {
         if (isAlive()) {
             cooldownCounter++;
@@ -89,11 +59,7 @@ public class Peashooter {
         }
     }
 
-    /**
-     * Hace que el lanzaguisantes reciba una cantidad de daño.
-     *
-     * @param damage cantidad de daño recibido
-     */
+    // Reduce la vida del lanzaguisantes segun el danio recibido
     public void receiveDamage(int damage) {
         this.health -= damage;
         if (this.health < 0) {
@@ -101,22 +67,12 @@ public class Peashooter {
         }
     }
 
-    /**
-     * Devuelve el nombre corto utilizado para identificar
-     * al lanzaguisantes.
-     *
-     * @return nombre corto del lanzaguisantes
-     */
+    // Devuelve el identificador corto del lanzaguisantes
     public static String shortName() {
         return SHORT_NAME;
     }
 
-    /**
-     * Devuelve el nombre completo utilizado para identificar
-     * al lanzaguisantes.
-     *
-     * @return nombre completo del lanzaguisantes
-     */
+    // Devuelve el identificador largo del lanzaguisantes
     public static String longName() {
         return LONG_NAME;
     }

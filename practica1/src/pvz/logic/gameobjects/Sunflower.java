@@ -4,10 +4,7 @@ import pvz.logic.Game;
 import pvz.utils.Position;
 import pvz.view.Messages;
 
-/**
- * Representa un girasol del juego.
- * Un girasol genera soles periódicamente mientras permanece vivo.
- */
+// Representa un girasol que genera soles periodicamente mientras esta vivo
 public class Sunflower {
 
     public static final int COST = 20;
@@ -24,12 +21,7 @@ public class Sunflower {
     private int cooldownCounter;
     private Game game;
 
-    /**
-     * Crea un girasol en una posición determinada.
-     *
-     * @param position posición del girasol
-     * @param game     partida a la que pertenece
-     */
+    // Crea un girasol en la posicion y partida indicadas
     public Sunflower(Position position, Game game) {
         this.position = position;
         this.game = game;
@@ -37,43 +29,25 @@ public class Sunflower {
         this.cooldownCounter = INITIAL_COOLDOWN_COUNTER;
     }
 
-    
-    /**
-     * Indica si el girasol continúa vivo.
-     *
-     * @return true si tiene vida mayor que cero
-     */
+    // Indica si el girasol sigue con vida
     public boolean isAlive() {
         return health > 0;
     }
 
-    /**
-     * Indica si el girasol se encuentra en una posición.
-     *
-     * @param position posición que se quiere comprobar
-     * @return true si el girasol ocupa esa posición
-     */
+    // Comprueba si el girasol se encuentra en la posicion dada
     public boolean isInPosition(Position position) {
         return this.position.equals(position);
     }
 
-    /**
-     * Hace que el girasol reciba daño.
-     *
-     * @param damage cantidad de daño recibido
-     */
+    // Reduce la vida del girasol segun el danio recibido
     public void receiveDamage(int damage) {
-        //health = health - damage;
         health -= damage;
         if (this.health < 0) {
             this.health = 0;
         }
     }
 
-    /**
-     * Actualiza el estado del girasol.
-     * Cada tres ciclos genera diez soles.
-     */
+    // Actualiza el girasol y genera soles cada tres ciclos
     public void update() {
         if (isAlive()) {
             if (this.cooldownCounter == COOLDOWN) {
@@ -85,41 +59,22 @@ public class Sunflower {
         }
     }
 
-    /**
-     * Devuelve la descripción del girasol.
-     *
-     * @return descripción del girasol
-     */
+    // Devuelve la descripcion formateada del girasol
     public static String getDescription() {
         return Messages.SUNFLOWER_DESCRIPTION.formatted(COST, DAMAGE, INITIAL_HEALTH);
     }
 
-    /**
-     * Devuelve la representación del girasol en el tablero.
-     *
-     * @return icono del girasol
-     */
+    // Devuelve el icono del girasol para el tablero
     public String getIcon() {
         return Messages.SUNFLOWER_ICON.formatted(health);
-        // String.format("S[%02d]", health);
     }
 
-    /**
-     * Devuelve el nombre corto utilizado para identificar
-     * al girasol.
-     *
-     * @return nombre corto del girasol
-     */
+    // Devuelve el identificador corto del girasol
     public static String shortName() {
         return SHORT_NAME;
     }
 
-    /**
-     * Devuelve el nombre completo utilizado para identificar
-     * al girasol.
-     *
-     * @return nombre completo del girasol
-     */
+    // Devuelve el identificador largo del girasol
     public static String longName() {
         return LONG_NAME;
     }

@@ -1,63 +1,26 @@
 package pvz.utils;
 
-/**
- * Representa una posición del tablero mediante una fila y una columna.
- */
+// Representa una posición del tablero mediante una fila y una columna
 public class Position {
     
     private int row;
     private int col;
 
-    /**
-     * Crea una nueva posición.
-     *
-     * @param row fila de la posición
-     * @param col columna de la posición
-     */
+    // Crea una nueva posición a partir de fila y columna
     public Position(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    /**
-     * Devuelve la fila de la posición.
-     *
-     * @return fila de la posición
-     */
+    // Devuelve la fila de la posición
     public int row() {
         return this.row;
     }
 
-    /**
-     * Devuelve la columna de la posición.
-     *
-     * @return columna de la posición
-     */
+    // Devuelve la columna de la posición
     public int column() {
         return this.col;
     }
-
-    /**
-     * Comprueba si dos posiciones representan la misma casilla.
-     *
-     * @param obj objeto con el que se compara
-     * @return true si ambas posiciones tienen la misma fila y columna
-     */
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Position)) {
-            return false;
-        }
-        Position other = (Position) obj;
-        return row == other.row && col == other.col;
-    }
-     */
-
-    
 
     @Override
     public int hashCode() {
@@ -68,6 +31,7 @@ public class Position {
         return result;
     }
 
+    // Comprueba si dos posiciones representan la misma casilla
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -84,52 +48,28 @@ public class Position {
         return true;
     }
 
-    /**
-     * Devuelve una representación textual de la posición.
-     *
-     * @return posición en formato (fila, columna)
-     */
+    // Devuelve una representación textual de la posición: (fila, columna)
     @Override
     public String toString() {
         return "(" + row + ", " + col + ")";
     }
 
-    /**
-     * Indica si esta posición está alineada horizontalmente con otra.
-     * Dos posiciones están alineadas horizontalmente cuando tienen la misma fila.
-     *
-     * @param position posición con la que se quiere comparar
-     * @return true si ambas posiciones tienen la misma fila
-     */
+    // Comprueba si está alineada horizontalmente (misma fila)
     public boolean isHorizontallyAligned(Position position) {
         return this.row == position.row;
     }
 
-    /**
-     * Indica si esta posición está alineada verticalmente con otra.
-     * Dos posiciones están alineadas verticalmente cuando tienen la misma columna.
-     *
-     * @param position posición con la que se quiere comparar
-     * @return true si ambas posiciones tienen la misma columna
-     */
+    // Comprueba si está alineada verticalmente (misma columna)
     public boolean isVerticallyAligned(Position position) {
         return this.col == position.col;
     }
 
-    /**
-     * Devuelve la posición situada inmediatamente a la izquierda.
-     *
-     * @return posición situada una columna a la izquierda
-     */
+    // Devuelve la posición situada una casilla a la izquierda
     public Position left() {
         return new Position(row, col - 1);
     }
 
-    /**
-     * Devuelve la posición situada inmediatamente a la derecha.
-     *
-     * @return posición situada una columna a la derecha
-     */
+    // Devuelve la posición situada una casilla a la derecha
     public Position right() {
         return new Position(row, col + 1);
     }

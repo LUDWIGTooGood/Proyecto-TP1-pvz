@@ -9,11 +9,7 @@ import pvz.logic.gameobjects.Sunflower;
 import pvz.logic.gameobjects.SunflowerList;
 import pvz.utils.Position;
 
-/**
- * Representa una partida de Plants vs Zombies.
- * Mantiene el estado del juego y coordina los distintos
- * objetos que participan en la partida.
- */
+// Coordina la partida de Plants vs Zombies y gestiona el estado global del tablero
 public class Game {
 
     public static final int NUM_ROWS = 4;
@@ -32,25 +28,14 @@ public class Game {
     private PeashooterList peashooterList;
     private ZombiesManager zombieManager;
 
-    /**
-     * Crea una nueva partida.
-     *
-     * @param seed  semilla utilizada para generar los valores aleatorios
-     * @param level nivel de dificultad de la partida
-     */
+    // Crea una nueva partida con la semilla y nivel dados
     public Game(Long seed, Level level) {
         this.seed = seed;
         this.level = level;
         reset();
     }
 
-    /**
-     * Devuelve la representación del objeto situado en una posición.
-     *
-     * @param position posición que se quiere consultar
-     * @return representación del objeto situado en la posición,
-     *         o una cadena vacía si no existe ninguno
-     */
+    // Devuelve el icono del objeto situado en la posicion indicada, o vacio si no hay ninguno
     public String positionToString(Position position) {
         String result = this.sunflowerList.iconInPosition(position);
 
@@ -65,13 +50,7 @@ public class Game {
         return result;
     }
 
-    /**
-     * Comprueba si un nombre corresponde a alguno de los tipos
-     * de plantas disponibles.
-     *
-     * @param objectName nombre del objeto que se quiere comprobar
-     * @return true si corresponde a un girasol o lanzaguisantes
-     */
+    // Comprueba si el identificador corresponde a un tipo de planta valido
     public boolean checkGameObject(String objectName) {
         boolean valid = false;
 
@@ -86,39 +65,22 @@ public class Game {
         return valid;
     }
 
-    /**
-     * Devuelve el número de ciclos transcurridos.
-     *
-     * @return número de ciclos
-     */
+    // Devuelve el numero de ciclos transcurridos
     public int getCycles() {
         return this.cycles;
     }
 
-    /**
-     * Devuelve el número de soles disponibles.
-     *
-     * @return número de soles
-     */
+    // Devuelve la cantidad de soles disponibles
     public int getCoins() {
         return this.coins;
     }
 
-    /**
-     * Devuelve el número de zombis que todavía quedan por aparecer.
-     *
-     * @return número de zombis pendientes
-     */
+    // Devuelve el numero de zombis pendientes por salir
     public int getRemainingZombies() {
         return this.zombieManager.getRemainingZombies();
     }
 
-    /**
-     * Indica si la partida ha terminado.
-     *
-     * @return true si el jugador ha ganado, los zombis han ganado
-     *         o el jugador ha decidido abandonar
-     */
+    // Indica si la partida ha finalizado por victoria, derrota o abandono
     public boolean hasGameFinished() {
         boolean finished = playerWins()
                 || this.zombieManager.doZombiesReachedTheHouse()
@@ -127,38 +89,24 @@ public class Game {
         return finished;
     }
 
-    /**
-     * Indica si el jugador ha ganado la partida.
-     *
-     * @return true si todos los zombis han sido eliminados
-     */
+    // Indica si el jugador ha ganado al eliminar a todos los zombis
     public boolean playerWins() {
         boolean wins = this.zombieManager.allZombiesWereKilled();
 
         return wins;
     }
 
-    /**
-     * Indica si el jugador ha decidido abandonar la partida.
-     *
-     * @return true si el jugador ha ejecutado el comando de salida
-     */
+    // Indica si el jugador decidio abandonar la partida
     public boolean playerQuits() {
         return this.quit;
     }
 
-    /**
-     * Finaliza la partida por decisión del jugador.
-     */
+    // Marca la partida como abandonada por el jugador
     public void quit() {
         this.quit = true;
     }
 
-    /**
-     * Realiza un ciclo de actualización del juego.
-     * Primero se intenta generar un nuevo zombi y después
-     * se actualizan los distintos objetos del tablero.
-     */
+    // Avanza un ciclo de juego: genera zombis, actualiza elementos y limpia muertos
     public void update() {
 
         this.zombieManager.addZombie();
@@ -174,11 +122,7 @@ public class Game {
         this.cycles++;
     }
 
-    /**
-     * Reinicia la partida a su estado inicial.
-     * También reinicia el generador aleatorio utilizando
-     * la misma semilla.
-     */
+    // Reinicia la partida a su estado inicial restaurando la semilla original
     public void reset() {
         this.cycles = 0;
         this.coins = INITIAL_COINS;
@@ -194,13 +138,7 @@ public class Game {
                 this.rand);
     }
 
-    /**
-     * Añade una planta a una posición del tablero si dispone
-     * de suficientes soles y la posición está disponible.
-     *
-     * @param plantType tipo de planta que se quiere añadir
-     * @param position  posición donde se quiere colocar
-     */
+    // Aniade una planta en la posicion indicada si hay soles y la casilla esta libre
     public void addGameObject(String plantType, Position position) {
 
         if (isInsideBoard(position) && isEmpty(position)) {
@@ -227,42 +165,23 @@ public class Game {
         }
     }
 
-    /**
-     * Añade una cantidad de soles a los disponibles.
-     *
-     * @param amount cantidad de soles generados
-     */
+    // Suma soles al contador del jugador
     public void generateCoins(int amount) {
         this.coins += amount;
     }
 
-    /**
-     * Ataca al primer zombi situado a la derecha de una posición.
-     *
-     * @param position posición desde la que se realiza el ataque
-     * @param damage   cantidad de daño
-     */
+    // Ordena atacar al primer zombi a la derecha de la posicion dada
     public void attackZombie(Position position, int damage) {
         this.zombieManager.damageZombie(position, damage);
     }
 
-    /**
-     * Ataca a la planta situada en una posición determinada.
-     *
-     * @param position posición de la planta atacada
-     * @param damage   cantidad de daño
-     */
+    // Aplica danio a cualquier planta ubicada en la posicion indicada
     public void attackPlant(Position position, int damage) {
         this.sunflowerList.receiveDamage(position, damage);
         this.peashooterList.receiveDamage(position, damage);
     }
 
-    /**
-     * Indica si una posición está libre de plantas y zombis.
-     *
-     * @param position posición que se quiere comprobar
-     * @return true si no contiene ningún objeto
-     */
+    // Comprueba si una posicion esta completamente libre de plantas y zombis
     public boolean isEmpty(Position position) {
         boolean empty = this.sunflowerList.isEmpty(position)
                 && this.peashooterList.isEmpty(position)
@@ -271,25 +190,14 @@ public class Game {
         return empty;
     }
 
-    /**
-     * Devuelve la posición inicial de un nuevo zombi.
-     * Los zombis aparecen inmediatamente a la derecha del tablero.
-     *
-     * @param row fila en la que aparece el zombi
-     * @return posición inicial del zombi
-     */
+    // Devuelve la posicion inicial de aparicion de un zombi en la fila indicada
     public Position newZombiePosition(int row) {
         Position position = new Position(row, NUM_COLS);
 
         return position;
     }
 
-    /**
-     * Indica si una posición se encuentra dentro del tablero.
-     *
-     * @param position posición que se quiere comprobar
-     * @return true si la posición pertenece al tablero
-     */
+    // Comprueba si una posicion se encuentra dentro de los limites del tablero
     public boolean isInsideBoard(Position position) {
         boolean inside = position.row() >= 0
                 && position.row() < NUM_ROWS

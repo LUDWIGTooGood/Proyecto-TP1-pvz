@@ -9,34 +9,26 @@ import pvz.view.GameView;
 import pvz.view.Messages;
 
 /**
- * Input/output coordinator of the game (the C in MVC).
+- Input/output coordinator of the game (the C in MVC).
  *
- * <p>Owns the game loop: reads a line from stdin, parses it into a
- * command, validates parameters (plant type, position), delegates
- * state changes to {@link Game}, and triggers a board reprint via
- * {@link GameView} when the cycle advances. It holds no game
- * state of its own; the source of truth is always {@link Game}.
+- <p>Owns the game loop: reads a line from stdin, parses it into a
+- command, validates parameters (plant type, position), delegates
+- state changes to {@link Game}, and triggers a board reprint via
+- {@link GameView} when the cycle advances. It holds no game
+- state of its own; the source of truth is always {@link Game}.
  */
 public class Controller {
 
     private final Game game;
     private final GameView view;
 
-    /**
-     * Crea el controlador asociado a una partida.
-     *
-     * @param game partida que será controlada
-     */
+    // Crea el controlador asociado a una partida
     public Controller(Game game) {
         this.game = game;
         this.view = new GamePrinter(game);
     }
 
-    /**
-     * Ejecuta el bucle principal de la partida.
-     * Lee los comandos del usuario y realiza las acciones correspondientes
-     * hasta que la partida termina.
-     */
+    // Ejecuta el bucle principal de la partida procesando comandos hasta su fin
     public void run() {
 
         this.view.showGame();
@@ -105,12 +97,7 @@ public class Controller {
         this.view.showEndMessage();
     }
 
-    /**
-     * Procesa el comando utilizado para añadir una planta.
-     *
-     * @param words palabras introducidas por el usuario
-     * @return true si la planta se ha añadido correctamente
-     */
+    // Procesa el comando para anadir una planta tras validar parametros y recursos
     private boolean executeAdd(String[] words) {
 
         boolean added = false;
@@ -158,13 +145,7 @@ public class Controller {
         return added;
     }
 
-    /**
-     * Comprueba si el jugador dispone de suficientes soles
-     * para comprar una planta.
-     *
-     * @param plantType tipo de planta que se quiere comprar
-     * @return true si hay suficientes soles
-     */
+    // Comprueba si el jugador dispone de suficientes soles para comprar la planta
     private boolean hasEnoughCoins(String plantType) {
 
         boolean enoughCoins = false;
